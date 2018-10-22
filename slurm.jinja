@@ -129,13 +129,16 @@ resources:
   properties:
     zone: {{ properties["zone"] }}
     machineType: https://www.googleapis.com/compute/v1/projects/{{ env["project"] }}/zones/{{ properties["zone"] }}/machineTypes/{{ properties["login_machine_type"] }}
+{% if properties ["cpu_platform"] %}
+    minCpuPlatform: {{ properties["cpu_platform"]}}
+{% endif %}
     disks:
     - deviceName: boot
       type: PERSISTENT
       boot: true
       autoDelete: true
       initializeParams:
-        sourceImage: https://www.googleapis.com/compute/v1/projects/centos-cloud/global/images/family/centos-7
+        sourceImage: https://www.googleapis.com/compute/v1/projects/{{ env["project"] }}/global/images/family/edge-centos-7
         diskType: https://www.googleapis.com/compute/v1/projects/{{ env["project"] }}/zones/{{ properties["zone"] }}/diskTypes/{{ properties["login_disk_type"] }}
         diskSizeGb: {{ properties["login_disk_size_gb"] }}
     networkInterfaces:
@@ -186,7 +189,7 @@ resources:
       boot: true
       autoDelete: true
       initializeParams:
-        sourceImage: https://www.googleapis.com/compute/v1/projects/centos-cloud/global/images/family/centos-7
+        sourceImage: https://www.googleapis.com/compute/v1/projects/{{ env["project"] }}/global/images/family/edge-centos-7
         diskType: https://www.googleapis.com/compute/v1/projects/{{ env["project"] }}/zones/{{ properties["zone"] }}/diskTypes/{{ properties["compute_disk_type"] }}
         diskSizeGb: {{ properties["compute_disk_size_gb"] }}
     networkInterfaces:

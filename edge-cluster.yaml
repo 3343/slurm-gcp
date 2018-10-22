@@ -1,0 +1,56 @@
+##
+# @file This file is part of EDGE.
+#
+# @author Alexander Breuer (anbreuer AT ucsd.edu)
+#
+# @section LICENSE
+# Copyright (c) 2018, Regents of the University of California
+# All rights reserved.
+#
+# Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+#
+# 1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+#
+# 2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+#
+# 3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+#
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+#
+# @section DESCRIPTION
+# GCP template for EDGE.
+##
+
+imports:
+- path: slurm.jinja
+
+resources:
+- name: edge-cluster
+  type: slurm.jinja
+  properties:
+    cluster_name            : edge-cluster
+    static_node_count       : 0 # increase, as required; default is 0 (bustable nodes only)
+    max_node_count          : 5 # increase, as required; limited to match GCP's default quotas
+
+    zone                    : us-west1-b
+    region                  : us-west1
+    cidr                    : 10.10.0.0/16
+
+    controller_machine_type : n1-standard-2 # increase thread-count, as required; limited to match GCP's default vCPU quoates (consider NFS-bandwidth https://cloud.google.com/vpc/docs/quota)
+    login_machine_type      : n1-standard-2
+    compute_machine_type    : n1-highcpu-4 # increase thread-count, as rqeuired; limited to match GCP's default vCPU quoates (96 are full 48-core SKX-nodes)
+    login_node_count        : 1
+    cpu_platform            : Intel Skylake # required for full nodes, 48-core SKX instances
+    preemptible_bursting    : True
+    external_compute_ips    : False
+
+    compute_disk_type       : pd-standard
+    compute_disk_size_gb    : 10
+    controller_disk_type    : pd-standard
+    controller_disk_size_gb : 100
+    login_disk_type         : pd-standard
+    login_disk_size_gb      : 10
+
+    slurm_version           : 18.08.2
+    default_account         : default
+    default_users           : anbreuer_ucsd_edu # users who are allow to submit jobs, has to match GCP's oslogin (can be added after creation through ``sudo sacctmgr add user anbreuer_ucsd_edu account=default``)

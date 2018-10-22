@@ -51,9 +51,9 @@ LOGFILE      = '/apps/slurm/log/resume.log'
 
 # [START create_instance]
 def create_instance(compute, project, zone, instance_type, instance_name):
-  # Get the latest CentOS 7image.
+  # Get EDGE's latest CentOS 7image.
   image_response = compute.images().getFromFamily(
-    project='centos-cloud', family='centos-7').execute()
+    project=PROJECT, family='edge-centos-7').execute()
   source_disk_image = image_response['selfLink']
 
   # Configure the machine
