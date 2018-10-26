@@ -45,11 +45,11 @@ resources:
     external_compute_ips    : False
 
     compute_disk_type       : pd-standard
-    compute_disk_size_gb    : 10
+    compute_disk_size_gb    : 20
     controller_disk_type    : pd-standard
     controller_disk_size_gb : 100
     login_disk_type         : pd-standard
-    login_disk_size_gb      : 10
+    login_disk_size_gb      : 20
 
     slurm_version           : 18.08.2
     default_account         : default
