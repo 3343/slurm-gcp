@@ -67,6 +67,9 @@ resources:
   properties:
     zone: {{ properties["zone"] }}
     machineType: https://www.googleapis.com/compute/v1/projects/{{ env["project"] }}/zones/{{ properties["zone"] }}/machineTypes/{{ properties["controller_machine_type"] }}
+{% if properties ["cpu_platform"] %}
+    minCpuPlatform: {{ properties["cpu_platform"]}}
+{% endif %}
     disks:
     - deviceName: boot
       type: PERSISTENT
