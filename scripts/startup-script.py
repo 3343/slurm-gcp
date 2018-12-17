@@ -668,6 +668,7 @@ def install_slurm():
         os.makedirs('build')
     os.chdir('build')
     subprocess.call(['../configure', '--prefix=%s' % SLURM_PREFIX,
+                     '--with-hdf5=no',
                      '--sysconfdir=%s/slurm/current/etc' % APPS_DIR])
     subprocess.call(['make', '-j', 'install'])
 
