@@ -47,7 +47,7 @@ resources:
     compute_disk_type       : pd-standard
     compute_disk_size_gb    : 30
     controller_disk_type    : pd-ssd
-    controller_disk_size_gb : 2000
+    controller_disk_size_gb : 500
     login_disk_type         : pd-standard
     login_disk_size_gb      : 30
 
