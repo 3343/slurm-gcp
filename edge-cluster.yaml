@@ -30,27 +30,27 @@ resources:
   properties:
     cluster_name            : edge-cluster
     static_node_count       : 0 # increase, as required; default is 0 (bustable nodes only)
-    max_node_count          : 5 # increase, as required; limited to match GCP's default quotas
+    max_node_count          : 1024
 
     zone                    : us-west1-b
     region                  : us-west1
     cidr                    : 10.10.0.0/16
 
-    controller_machine_type : n1-standard-2 # increase thread-count, as required; limited to match GCP's default vCPU quoates (consider NFS-bandwidth https://cloud.google.com/vpc/docs/quota)
-    login_machine_type      : n1-standard-2
-    compute_machine_type    : n1-highcpu-4 # increase thread-count, as rqeuired; limited to match GCP's default vCPU quoates (96 are full 48-core SKX-nodes)
-    login_node_count        : 1
+    controller_machine_type : n1-highcpu-96 # 96 are full 48-core SKX-nodes (consider NFS-bandwidth https://cloud.google.com/vpc/docs/quota)
+    login_machine_type      : n1-standard-4
+    compute_machine_type    : n1-highcpu-96 # 96 are full 48-core SKX-nodes
+    login_node_count        : 0
     cpu_platform            : Intel Skylake # required for full nodes, 48-core SKX instances
     preemptible_bursting    : True
     external_compute_ips    : False
 
     compute_disk_type       : pd-standard
     compute_disk_size_gb    : 30
-    controller_disk_type    : pd-standard
-    controller_disk_size_gb : 100
+    controller_disk_type    : pd-ssd
+    controller_disk_size_gb : 2000
     login_disk_type         : pd-standard
     login_disk_size_gb      : 30
 
-    slurm_version           : 18.08.2
+    slurm_version           : 18.08.3
     default_account         : default
     default_users           : anbreuer_ucsd_edu # users who are allow to submit jobs, has to match GCP's oslogin (can be added after creation through ``sudo sacctmgr add user anbreuer_ucsd_edu account=default``)
