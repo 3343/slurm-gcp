@@ -32,7 +32,7 @@ resources:
     static_node_count       : 0 # increase, as required; default is 0 (bustable nodes only)
     max_node_count          : 1024
 
-    zone                    : us-west1-b
+    zone                    : us-west1-a
     region                  : us-west1
     cidr                    : 10.10.0.0/16
 
